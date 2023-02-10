@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>Calculator</title>
+  <style>
+    * { box-sizing: border-box }
+    #result { width: 180px; height: 50px; margin: 5px; text-align: right }
+    #operator { width: 50px; height: 50px; margin: 5px; text-align: center }
+    button { width: 50px; height: 50px; margin: 5px }
+  </style>
+</head>
+
+<!-- 계산기 버튼 구현 -->
+<body>
+  <input readonly id="operator">
+  <input readonly type="number" id="result">
+  <div class="row">
+    <button id="num-7">7</button>
+    <button id="num-8">8</button>
+    <button id="num-9">9</button>
+    <button id="plus">+</button>
+  </div>
+  <div class="row">
+    <button id="num-4">4</button>
+    <button id="num-5">5</button>
+    <button id="num-6">6</button>
+    <button id="minus">-</button>
+  </div>
+  <div class="row">
+    <button id="num-1">1</button>
+    <button id="num-2">2</button>
+    <button id="num-3">3</button>
+    <button id="divide">/</button>
+  </div>
+  <div class="row">
+    <button id="clear">C</button>
+    <button id="num-0">0</button>
+    <button id="calculate">=</button>
+    <button id="multiply">x</button>
+  </div>
+  <script>
+    let numOne ='';
+    let operator ='';
+    let numTwo ='';
+
+    const $operator = document.querySelector('#operator');
+    const $result = document.querySelector('#result');
+
+    const onClickButton = (event) => {
+        if (!operator){
+            numOne += event.target.textContent
+            $result.value += event.target.textContent //화면 값 바꾸어줄 때는 .value 또는 .textContent 등 알맞은 코드 기억하기
+        }else{
+            $result.value = ''
+            $result.value += event.target.textContent
+            numTwo += event.target.textContent
+        }
+    }
+
+
+    document.querySelector('#num-0').addEventListener('click',onClickButton)
+    document.querySelector('#num-1').addEventListener('click',onClickButton)
+    document.querySelector('#num-2').addEventListener('click',onClickButton)
+    document.querySelector('#num-3').addEventListener('click',onClickButton)
+    document.querySelector('#num-4').addEventListener('click',onClickButton)
+    document.querySelector('#num-5').addEventListener('click',onClickButton)
+    document.querySelector('#num-6').addEventListener('click',onClickButton)
+    document.querySelector('#num-7').addEventListener('click',onClickButton)
+    document.querySelector('#num-8').addEventListener('click',onClickButton)
+    document.querySelector('#num-9').addEventListener('click',onClickButton)
+
+    const onClickButtonOp = (event) => {
+        if (numOne){
+          if (numTwo){
+            switch(operator){
+                case '+':
+                    numOne = parseInt(numOne) + parseInt(numTwo)
+                    numTwo =''
+                    break // switch 할 때는 break 안해주면 뒤에 것도 다 실행된다.
+                case '-':
+                    numOne = parseInt(numOne) - parseInt(numTwo)
+                    numTwo =''
+                    break
+                case 'x':
+                    numOne = parseInt(numOne) * parseInt(numTwo)
+                    numTwo =''
+                    break
+                case '/':
+                    numOne = parseInt(numOne) / parseInt(numTwo)
+                    numTwo =''
+                    break
+            }
+          }
+          $operator.value = event.target.textContent;
+          operator = event.target.textContent;
+        }else{
+          alert('You should put the first number')
+        }
+    }
+
+    document.querySelector('#plus').addEventListener('click',onClickButtonOp)
+    document.querySelector('#minus').addEventListener('click',onClickButtonOp)
+    document.querySelector('#divide').addEventListener('click',onClickButtonOp)
+    document.querySelector('#multiply').addEventListener('click',onClickButtonOp)
+
+    const onClickCalculate = () => {
+        if(numTwo){
+          switch(operator){
+                case '+':
+                    $result.value = parseInt(numOne) + parseInt(numTwo)
+                    break // switch 할 때는 break 안해주면 뒤에 것도 다 실행된다.
+                case '-':
+                    $result.value = parseInt(numOne) - parseInt(numTwo)
+                    break
+                case 'x':
+                    $result.value = parseInt(numOne) * parseInt(numTwo)
+                    break
+                case '/':
+                    $result.value = parseInt(numOne) / parseInt(numTwo)
+                    break
+            }
+        }else{
+            alert('Before calculating the resuslt, you should put the number')
+        }
+        
+    } 
+
+    document.querySelector('#calculate').addEventListener('click',onClickCalculate)
+
+    const onClickClear = () => {
+        numOne ='';
+        operator ='';
+        numTwo ='';
+        $operator.value = '';
+        $result.value = '';
+    }
+
+    document.querySelector('#clear').addEventListener('click',onClickClear)
+    
+    </script>
+    </body>
+    </html>
